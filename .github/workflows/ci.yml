@@ -31,16 +31,25 @@ jobs:
         run: |
           $results = Invoke-ScriptAnalyzer -Path . -Recurse -Settings ./PSScriptAnalyzerSettings.psd1
           $results | Format-Table -AutoSize
-          if ($results) { throw "PSScriptAnalyzer found $($results.Count) issue(s)." }
+          if ($results) {
+            $msg = ($results | ForEach-Object { "$($_.Severity) $($_.RuleName) $($_.ScriptName):$($_.Line) $($_.Message)" }) -join '%0A'
+            Write-Host "::error title=PSScriptAnalyzer::$msg"
+            throw "PSScriptAnalyzer found $($results.Count) issue(s)."
+          }
 
       - name: Pester
         shell: pwsh
         run: |
           $config = New-PesterConfiguration
           $config.Run.Path = './tests'
-          $config.Run.Exit = $true
+          $config.Run.PassThru = $true
           $config.Output.Verbosity = 'Detailed'
-          Invoke-Pester -Configuration $config
+          $result = Invoke-Pester -Configuration $config
+          if ($result.FailedCount -gt 0 -or $result.Result -ne 'Passed') {
+            $msg = (@($result.Failed) | ForEach-Object { "$($_.ExpandedPath): $($_.ErrorRecord[0].Exception.Message)" }) -join '%0A'
+            Write-Host "::error title=Pester::$msg"
+            exit 1
+          }
 
       - name: Generate demo report
         shell: pwsh
