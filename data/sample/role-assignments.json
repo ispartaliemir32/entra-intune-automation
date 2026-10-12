@@ -1,0 +1,10 @@
+[
+  { "roleName": "Global Administrator",           "principalName": "alex.morgan@example.com",    "principalType": "user" },
+  { "roleName": "Global Administrator",           "principalName": "break-glass-01@example.com", "principalType": "user" },
+  { "roleName": "Privileged Role Administrator",  "principalName": "sam.rivera@example.com",     "principalType": "user" },
+  { "roleName": "Security Administrator",         "principalName": "riley.chen@example.com",     "principalType": "user" },
+  { "roleName": "Security Administrator",         "principalName": "SG-Security-Ops",            "principalType": "group" },
+  { "roleName": "Intune Administrator",           "principalName": "jamie.novak@example.com",    "principalType": "user" },
+  { "roleName": "Helpdesk Administrator",         "principalName": "quinn.adams@example.com",    "principalType": "user" },
+  { "roleName": "Directory Readers",              "principalName": "robin.shaw@example.com",     "principalType": "user" }
+]

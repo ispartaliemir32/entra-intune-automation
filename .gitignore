@@ -1,0 +1,9 @@
+# Generated reports can contain real tenant data. Never commit them.
+reports/
+
+# Local secrets and editor files
+*.pfx
+*.secret
+.env
+.vscode/
+.idea/
