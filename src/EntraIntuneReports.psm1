@@ -314,16 +314,16 @@ function Import-DemoData {
     )
 
     $read = {
-        param($name)
-        $file = Join-Path -Path $Path -ChildPath $name
+        param($directory, $name)
+        $file = Join-Path -Path $directory -ChildPath $name
         if (-not (Test-Path -LiteralPath $file)) { throw "Demo data file not found: $file" }
         @(Get-Content -LiteralPath $file -Raw | ConvertFrom-Json -Depth 10)
     }
 
     return [pscustomobject]@{
-        User           = & $read 'users.json'
-        Device         = & $read 'devices.json'
-        RoleAssignment = & $read 'role-assignments.json'
+        User           = & $read $Path 'users.json'
+        Device         = & $read $Path 'devices.json'
+        RoleAssignment = & $read $Path 'role-assignments.json'
         ReferenceDate  = $script:DemoReferenceDate
     }
 }
